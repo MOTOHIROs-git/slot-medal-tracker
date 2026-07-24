@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 # スロット持ちメダルトラッカー
 
 スロットのゲーム数・純増・持ちメダルを、ブラウザだけで管理する軽量PWAです。フレームワークやnpmを使わず、データは端末のLocalStorageだけに保存されます。
