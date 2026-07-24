@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 /* Interactive Canvas graph: cumulative games, soft grid, and moving interval bands. */
 const MedalGraph = (() => {
   class Graph {
