@@ -1,0 +1,5 @@
+Exit code: 0
+Wall time: 0.5 seconds
+Output:
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" rx="42" fill="#6750a4"/><circle cx="96" cy="96" r="58" fill="#fff"/><circle cx="96" cy="96" r="38" fill="#6750a4"/><path d="M96 65v62M65 96h62M74 74l44 44m0-44-44 44" stroke="#fff" stroke-width="8" stroke-linecap="round"/><circle cx="96" cy="96" r="11" fill="#f5d478"/></svg>
+
