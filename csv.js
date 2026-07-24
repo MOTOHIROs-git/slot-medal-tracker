@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 const Csv = (() => {
   const headers=['No','ゲーム数','純増','増減枚数','累積枚数','日時'];
   function escape(v){return '"'+String(v??'').replaceAll('"','""')+'"';}
