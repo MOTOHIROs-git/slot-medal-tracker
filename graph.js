@@ -1,0 +1,24 @@
+Exit code: 0
+Wall time: 0.4 seconds
+Output:
+/* Interactive Canvas graph: cumulative games, soft grid, and moving interval bands. */
+const MedalGraph = (() => {
+  class Graph {
+    constructor(canvas, tooltip) { this.c=canvas; this.ctx=canvas.getContext('2d'); this.tip=tooltip; this.history=[]; this.conditions=[]; this.view=null; this.drag=null; new ResizeObserver(()=>this.draw()).observe(canvas); canvas.addEventListener('wheel',e=>this.zoom(e)); canvas.addEventListener('pointerdown',e=>this.drag={x:e.offsetX,view:{...this.range()}}); canvas.addEventListener('pointermove',e=>this.move(e)); canvas.addEventListener('pointerup',()=>this.drag=null); canvas.addEventListener('pointerleave',()=>{this.drag=null;this.tip.hidden=true;}); }
+    setData(history, conditions) { this.history=history; this.conditions=conditions; this.view=null; this.draw(); }
+    data() { let games=0; return [{games:0,total:0},...this.history.map(h=>{games+=Number(h.games)||0;return {games:h.totalGames??games,total:Number(h.total)||0};})]; }
+    range() { if(this.view)return this.view; const d=this.data(),xs=d.map(p=>p.games),ys=[...d.map(p=>p.total),...this.conditions.flatMap(c=>[c.startTotal,c.startTotal+c.target])]; const ymin=Math.min(0,...ys),ymax=Math.max(100,...ys),padding=Math.max(100,(ymax-ymin)*.13); return {xmin:0,xmax:Math.max(50,...xs)*1.08,ymin:Math.floor((ymin-padding)/100)*100,ymax:Math.ceil((ymax+padding)/100)*100}; }
+    xy(x,y,r) { const p={l:54,r:18,t:18,b:36},w=this.c.clientWidth-p.l-p.r,h=this.c.clientHeight-p.t-p.b; return {x:p.l+(x-r.xmin)/(r.xmax-r.xmin)*w,y:p.t+(r.ymax-y)/(r.ymax-r.ymin)*h,p,w,h}; }
+    draw() { const dpr=devicePixelRatio||1,w=this.c.clientWidth,h=this.c.clientHeight;if(!w||!h)return; this.c.width=w*dpr;this.c.height=h*dpr;this.ctx.setTransform(dpr,0,0,dpr,0,0); const ctx=this.ctx,r=this.range(),dark=document.body.classList.contains('dark'),fg=dark?'#e6e0e9':'#332f38',minor=dark?'#ffffff12':'#6750a411',major=dark?'#ffffff2b':'#6750a42e',base=this.xy(0,0,r),pastels=['#c9b6e4','#a9d7c0','#f1cf98','#f0b5bc']; ctx.clearRect(0,0,w,h);ctx.font='11px system-ui';ctx.fillStyle=fg;
+      for(let val=Math.ceil(r.ymin/100)*100;val<=r.ymax;val+=100){const y=this.xy(0,val,r).y,main=val%500===0;ctx.strokeStyle=main?major:minor;ctx.lineWidth=main?1:0.6;ctx.beginPath();ctx.moveTo(base.p.l,y);ctx.lineTo(w-base.p.r,y);ctx.stroke();if(main)ctx.fillText(val.toLocaleString(),3,y+4);}
+      for(let i=0;i<=4;i++){const x=base.p.l+base.w*i/4,val=r.xmin+(r.xmax-r.xmin)*i/4;ctx.fillText(`${Math.round(val)}G`,x-10,h-10);}
+      this.conditions.forEach((c,i)=>{if(!c.interval)return;const a=this.xy(c.startGames,0,r),b=this.xy(c.currentGames,0,r),target=this.xy(0,c.startTotal+c.target,r);ctx.fillStyle=pastels[i%pastels.length];ctx.globalAlpha=.28;ctx.fillRect(a.x,base.p.t,Math.max(2,b.x-a.x),base.h);ctx.globalAlpha=1;ctx.strokeStyle=pastels[i%pastels.length];ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.beginPath();ctx.moveTo(a.x,target.y);ctx.lineTo(b.x,target.y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=fg;ctx.fillText(`直近${c.interval}G +${c.target}`,a.x+4,target.y-5);});
+      const data=this.data(),pts=data.map(p=>this.xy(p.games,p.total,r));ctx.strokeStyle='#6750a4';ctx.lineWidth=2.5;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke();pts.forEach(p=>{ctx.fillStyle='#6750a4';ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.fill();});this.points=pts;this.dataPoints=data;
+    }
+    zoom(e) { e.preventDefault();const r=this.range(),f=e.deltaY>0?1.14:.86,p=this.xy(0,0,r),x=r.xmin+(e.offsetX-p.p.l)/p.w*(r.xmax-r.xmin),y=r.ymax-(e.offsetY-p.p.t)/p.h*(r.ymax-r.ymin);this.view={xmin:Math.max(0,x+(r.xmin-x)*f),xmax:x+(r.xmax-x)*f,ymin:y+(r.ymin-y)*f,ymax:y+(r.ymax-y)*f};this.draw(); }
+    move(e) { if(this.drag){const r=this.drag.view,p=this.xy(0,0,r),dx=(e.offsetX-this.drag.x)/p.w*(r.xmax-r.xmin);this.view={...r,xmin:Math.max(0,r.xmin-dx),xmax:Math.max(1,r.xmax-dx)};this.draw();return;}let best=null,dist=16;this.points?.forEach((p,i)=>{const d=Math.hypot(p.x-e.offsetX,p.y-e.offsetY);if(d<dist){dist=d;best=i;}});if(best===null){this.tip.hidden=true;return;}const h=this.dataPoints[best];this.tip.textContent=`${h.games}G\n${Math.round(h.total).toLocaleString()} 枚`;this.tip.style.left=`${e.offsetX+12}px`;this.tip.style.top=`${e.offsetY-30}px`;this.tip.hidden=false; }
+    reset() { this.view=null;this.draw(); }
+  }
+  return { Graph };
+})();
+
