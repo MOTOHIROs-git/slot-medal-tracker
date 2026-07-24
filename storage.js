@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 /* LocalStorage access is intentionally isolated so UI code stays testable. */
 const Storage = (() => {
   const KEY = 'slot-medal-tracker-v1';
