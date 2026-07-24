@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 const Conditions = (() => {
   /** Build cumulative game/medal points, including compatibility with old data. */
   function points(history) {
