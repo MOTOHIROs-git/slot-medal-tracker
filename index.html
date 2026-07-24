@@ -1,0 +1,31 @@
+Exit code: 0
+Wall time: 0.4 seconds
+Output:
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#6750a4"><meta name="description" content="スロットの持ちメダルをオフラインで記録・管理するアプリ">
+  <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css"><title>メダルトラッカー</title>
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brand-mark">◈</span><div><h1>メダルトラッカー</h1><small>Slot Medal Tracker</small></div></div><button class="icon-button" id="themeToggle" title="テーマを切替" aria-label="テーマを切替">◐</button></header>
+  <main class="app-shell">
+    <section class="card session-card"><div class="session-row"><label>セッション<select id="sessionSelect" aria-label="セッション"></select></label><button id="newSession">＋ 新規</button><button id="renameSession" class="ghost">名前変更</button><button id="deleteSession" class="danger-text">削除</button></div></section>
+    <div class="layout-grid">
+      <div class="left-column">
+        <section class="card"><div class="section-heading"><h2>設定</h2><label class="theme-select">テーマ<select id="themeSelect"><option value="auto">自動</option><option value="light">ライト</option><option value="dark">ダーク</option></select></label></div><p class="hint">純増を選択・編集できます</p><div id="rateList" class="rate-list"></div></section>
+        <section class="card"><h2>ゲーム入力</h2><div class="game-display"><input id="gameInput" type="number" inputmode="numeric" min="0" value="0" aria-label="ゲーム数"><span>G</span></div><div class="step-buttons"><button data-step="1">+1</button><button data-step="10">+10</button><button data-step="50">+50</button><button data-step="-1">−1</button><button data-step="-10">−10</button><button data-step="-50">−50</button></div><button id="recordButton" class="primary wide">記録する</button><p id="recordPreview" class="preview">選択した純増を選んでください</p></section>
+        <section class="card"><div class="section-heading"><h2>条件表示</h2><button id="addCondition" class="ghost">＋ 条件を追加</button></div><div id="conditionList" class="condition-list"></div><div id="conditionStatus" class="condition-status"></div></section>
+      </div>
+      <div class="right-column">
+        <section class="card chart-card"><div class="section-heading"><div><h2>持ちメダル推移</h2><p class="hint">ドラッグで移動・ホイールで拡大縮小</p></div><button id="resetZoom" class="ghost">表示をリセット</button></div><div class="chart-wrap"><canvas id="medalChart" aria-label="持ちメダル推移グラフ"></canvas><div id="chartTooltip" class="chart-tooltip" hidden></div></div></section>
+        <section class="card history-card"><div class="section-heading"><h2>履歴一覧</h2><span id="historyCount" class="count-badge">0 件</span></div><div class="table-scroll"><table><thead><tr><th>No</th><th>ゲーム数</th><th>純増</th><th>増減枚数</th><th>累積枚数</th><th>日時</th><th>操作</th></tr></thead><tbody id="historyBody"></tbody></table></div><p id="emptyHistory" class="empty">まだ記録がありません</p></section>
+      </div>
+    </div>
+    <section class="action-bar"><button id="exportCsv">CSVエクスポート</button><label class="file-button">CSVインポート<input id="importCsv" type="file" accept=".csv,text/csv" hidden></label><button id="undoButton" class="ghost">↶ Undo</button><button id="resetButton" class="danger">リセット</button></section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="storage.js"></script><script src="condition.js"></script><script src="graph.js"></script><script src="csv.js"></script><script src="app.js"></script><script src="pwa.js"></script>
+</body></html>
+
