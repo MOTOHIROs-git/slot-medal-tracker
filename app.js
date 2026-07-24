@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 0.4 seconds
-Output:
 (() => {
   const $=s=>document.querySelector(s);let state=Storage.load(), graph, toastTimer;
   const session=()=>state.sessions[state.activeSessionId]; const n=v=>Number(v)||0;
