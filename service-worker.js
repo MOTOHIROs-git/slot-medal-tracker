@@ -1,5 +1,5 @@
 // Bump this cache key whenever deployed assets change so installed PWAs refresh cleanly.
-const CACHE = 'medal-tracker-v4';
+const CACHE = 'medal-tracker-v5';
 const ASSETS = ['./', './index.html', './style.css', './storage.js', './condition.js', './graph.js', './csv.js', './app.js', './pwa.js', './manifest.json', './assets/icon192.svg', './assets/icon512.svg'];
 
 self.addEventListener('install', (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
