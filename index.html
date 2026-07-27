@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#6750a4"><meta name="description" content="スロットの持ちメダルをオフラインで記録・管理するアプリ">
-  <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css"><style>.chart-controls{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.chart-controls button{font-size:12px;padding:7px 9px}@media(max-width:780px){.chart-controls{justify-content:flex-start}.chart-card .section-heading{align-items:flex-start;flex-direction:column}}</style><title>メダルトラッカー</title>
+  <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="style.css"><style>.version{font-size:11px;font-weight:500;color:var(--muted);vertical-align:middle}.chart-controls{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.chart-controls button{font-size:12px;padding:7px 9px}@media(max-width:780px){.chart-controls{justify-content:flex-start}.chart-card .section-heading{align-items:flex-start;flex-direction:column}}</style><title>メダルトラッカー</title>
 </head>
 <body>
-  <header class="topbar"><div class="brand"><span class="brand-mark">◈</span><div><h1>メダルトラッカー</h1><small>Slot Medal Tracker</small></div></div><button class="icon-button" id="themeToggle" title="テーマを切替" aria-label="テーマを切替">◐</button></header>
+  <header class="topbar"><div class="brand"><span class="brand-mark">◈</span><div><h1>メダルトラッカー <small class="version">v1.5.0</small></h1><small>Slot Medal Tracker</small></div></div><button class="icon-button" id="themeToggle" title="テーマを切替" aria-label="テーマを切替">◐</button></header>
   <main class="app-shell">
     <section class="card session-card"><div class="session-row"><label>セッション<select id="sessionSelect" aria-label="セッション"></select></label><button id="newSession">＋ 新規</button><button id="renameSession" class="ghost">名前変更</button><button id="deleteSession" class="danger-text">削除</button></div></section>
     <div class="layout-grid">
@@ -16,7 +16,7 @@
         <section class="card"><div class="section-heading"><h2>条件表示</h2><button id="addCondition" class="ghost">＋ 条件を追加</button></div><div id="conditionList" class="condition-list"></div><div id="conditionStatus" class="condition-status"></div></section>
       </div>
       <div class="right-column">
-        <section class="card chart-card"><div class="section-heading"><div><h2>持ちメダル推移</h2><p class="hint">ドラッグ・ピンチで移動／拡大縮小</p></div><div class="chart-controls"><button id="lockX" class="ghost" aria-pressed="false">横ズーム固定</button><button id="lockY" class="ghost" aria-pressed="false">縦ズーム固定</button><button id="resetZoom" class="ghost">表示をリセット</button></div></div><div class="chart-wrap"><canvas id="medalChart" aria-label="持ちメダル推移グラフ"></canvas><div id="chartTooltip" class="chart-tooltip" hidden></div></div></section>
+        <section class="card chart-card"><div class="section-heading"><div><h2>持ちメダル推移</h2><p class="hint">ドラッグ・ピンチで移動／拡大縮小</p></div><div class="chart-controls"><button id="lockX" class="ghost zoom-lock" aria-pressed="false">↔ 横軸ロック：OFF</button><button id="lockY" class="ghost zoom-lock" aria-pressed="false">↕ 縦軸ロック：OFF</button><button id="resetZoom" class="ghost">表示をリセット</button></div></div><div class="chart-wrap"><canvas id="medalChart" aria-label="持ちメダル推移グラフ"></canvas><div id="chartTooltip" class="chart-tooltip" hidden></div></div></section>
         <section class="card history-card"><div class="section-heading"><h2>履歴一覧</h2><span id="historyCount" class="count-badge">0 件</span></div><div class="table-scroll"><table><thead><tr><th>No</th><th>ゲーム数</th><th>純増</th><th>増減枚数</th><th>累積枚数</th><th>日時</th><th>操作</th></tr></thead><tbody id="historyBody"></tbody></table></div><p id="emptyHistory" class="empty">まだ記録がありません</p></section>
       </div>
     </div>
